@@ -1,0 +1,37 @@
+/* '키즈오아시스 화면 시안' 디자인 캔버스와 동일한 팔레트/타이포 토큰 */
+:root {
+  --bg: oklch(0.985 0.012 85);
+  --surface: oklch(1 0 0);
+  --surface-soft: oklch(0.96 0.015 100);
+  --ink: oklch(0.30 0.03 150);
+  --ink-soft: oklch(0.48 0.025 150);
+  --muted: oklch(0.62 0.02 140);
+  --line: oklch(0.93 0.015 110);
+
+  --primary: oklch(0.74 0.14 27);
+  --primary-strong: oklch(0.64 0.15 27);
+  --primary-ink: oklch(0.64 0.15 27);
+  --primary-soft: oklch(0.94 0.045 27);
+
+  --mint: oklch(0.90 0.06 155);
+  --mint-ink: oklch(0.42 0.09 155);
+
+  --coral: oklch(0.90 0.065 25);
+  --coral-ink: oklch(0.48 0.13 25);
+
+  --yellow: oklch(0.91 0.075 85);
+  --yellow-ink: oklch(0.47 0.10 75);
+
+  --lavender: oklch(0.90 0.045 290);
+  --lavender-ink: oklch(0.46 0.10 290);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 1px 2px oklch(0.30 0.03 150 / 0.06);
+  --shadow-md: 0 10px 24px -14px oklch(0.30 0.03 150 / 0.32);
+  --shadow-cta: 0 10px 20px -8px oklch(0.64 0.15 27 / 0.5);
+
+  --font-display: 'Jua', 'Noto Sans KR', sans-serif;
+  --font-body: 'Noto Sans KR', -apple-system, sans-serif;
+}
