@@ -139,15 +139,36 @@ export default function App() {
       placesWithCoord.filter((p) => {
         const matchCat = filters.categories.has(p.category)
         const matchIndoor = !filters.indoorOnly || p.category === '놀이공간' || p.category === '원데이클래스' || p.subcategory === '박물관' || p.subcategory === '생태학습원'
+        const q = searchQuery.trim().toLowerCase()
+        if (!q) return matchCat && matchIndoor
+
         const matchSearch =
-          !searchQuery.trim() ||
-          p.name.includes(searchQuery) ||
-          (p.address && p.address.includes(searchQuery)) ||
-          (p.description && p.description.includes(searchQuery))
+          (p.name && p.name.toLowerCase().includes(q)) ||
+          (p.category && p.category.toLowerCase().includes(q)) ||
+          (p.subcategory && p.subcategory.toLowerCase().includes(q)) ||
+          (p.address && p.address.toLowerCase().includes(q)) ||
+          (p.region && p.region.toLowerCase().includes(q)) ||
+          (p.description && p.description.toLowerCase().includes(q)) ||
+          (p.parent_tips && p.parent_tips.toLowerCase().includes(q)) ||
+          (Array.isArray(p.highlights) && p.highlights.some((h) => h.toLowerCase().includes(q)))
+
         return matchCat && matchIndoor && matchSearch
       }),
     [placesWithCoord, filters.categories, filters.indoorOnly, searchQuery]
   )
+
+  const handleSearchSubmit = useCallback((e) => {
+    if (e) e.preventDefault()
+    if (viewMode === 'home') {
+      setViewMode('map')
+      setTab('list')
+      setNavTab('course')
+    }
+  }, [viewMode])
+
+  const handleResetSearch = useCallback(() => {
+    setSearchQuery('')
+  }, [])
 
   const handleRecommend = useCallback(() => {
     const targetPlaces = filteredPlaces && filteredPlaces.length > 0 ? filteredPlaces : placesWithCoord
@@ -170,7 +191,9 @@ export default function App() {
   }, [])
 
   const handleSwitchToCategoryMap = useCallback((catKey) => {
-    setFilters((prev) => ({ ...prev, categories: new Set([catKey]) }))
+    if (catKey) {
+      setFilters((prev) => ({ ...prev, categories: new Set([catKey]) }))
+    }
     setViewMode('map')
     setTab('list')
     setNavTab('course')
@@ -221,15 +244,33 @@ export default function App() {
           </div>
 
           <div className="nav-center">
-            <div className="nav-search-bar">
-              <IconSearch className="search-icon" />
-              <input
-                type="text"
-                placeholder="어디로 가고 싶으세요?"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
+            <form className="nav-search-form" onSubmit={handleSearchSubmit}>
+              <div className="nav-search-bar">
+                <IconSearch className="search-icon" />
+                <input
+                  type="text"
+                  placeholder="어디로 가고 싶으세요?"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSearchSubmit(e)
+                  }}
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    className="search-clear-btn"
+                    onClick={handleResetSearch}
+                    title="검색어 지우기"
+                  >
+                    ✕
+                  </button>
+                )}
+                <button type="submit" className="search-submit-btn">
+                  조회
+                </button>
+              </div>
+            </form>
           </div>
 
           <div className="nav-right">
@@ -263,6 +304,8 @@ export default function App() {
       {viewMode === 'home' ? (
         <HomeCurationView
           places={filteredPlaces}
+          searchQuery={searchQuery}
+          onResetSearch={handleResetSearch}
           onSelectPlace={(id) => {
             setSelectedId(id)
             setViewMode('map')
@@ -292,6 +335,8 @@ export default function App() {
                 <PlaceList
                   places={filteredPlaces}
                   selectedId={selectedId}
+                  searchQuery={searchQuery}
+                  onResetSearch={handleResetSearch}
                   onSelect={setSelectedId}
                   onOpenDetail={setDetailPlace}
                 />

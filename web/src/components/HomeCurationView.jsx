@@ -67,7 +67,9 @@ function CurationCard({ place, onSelectPlace, onOpenDetail }) {
 }
 
 export default function HomeCurationView({
-  places,
+  places = [],
+  searchQuery = '',
+  onResetSearch,
   onSelectPlace,
   onOpenDetail,
   onSwitchToMap,
@@ -100,42 +102,74 @@ export default function HomeCurationView({
     },
   }
 
+  const hasAnyPlaces = places.length > 0
+
   return (
     <div className="home-curation-view">
-      {CATEGORIES.map((c) => {
-        const groupPlaces = categorized[c.key] || []
-        if (groupPlaces.length === 0) return null
-        const meta = sectionTitles[c.key] || { title: c.label, sub: '' }
+      {searchQuery && (
+        <div className="home-search-results-banner">
+          <div className="banner-info">
+            <span className="search-tag">검색어: <strong>"{searchQuery}"</strong></span>
+            <span className="results-count">총 <strong>{places.length}</strong>곳의 장소를 찾았습니다.</span>
+          </div>
+          <div className="banner-actions">
+            <button type="button" className="btn-view-map-all" onClick={() => onSwitchToMap && onSwitchToMap()}>
+              🗺️ 지도에서 전체보기 ➔
+            </button>
+            <button type="button" className="btn-clear-search-banner" onClick={onResetSearch}>
+              ✕ 검색 초기화
+            </button>
+          </div>
+        </div>
+      )}
 
-        return (
-          <section key={c.key} className="curation-section">
-            <div className="section-head-row">
-              <div className="head-text-group">
-                <h3>{meta.title}</h3>
-                <p className="section-sub">{meta.sub}</p>
+      {!hasAnyPlaces ? (
+        <div className="curation-empty-state">
+          <div className="empty-icon-badge">🔍</div>
+          <h3>'{searchQuery || '선택한 조건'}'에 대한 검색 결과가 없습니다</h3>
+          <p>입력하신 검색어나 선택하신 필터 조건에 부합하는 장소를 찾지 못했어요.<br />다른 검색어를 입력하시거나 검색어를 초기화해 보세요.</p>
+          {onResetSearch && (
+            <button type="button" className="btn-reset-search" onClick={onResetSearch}>
+              🔄 검색어 및 필터 초기화
+            </button>
+          )}
+        </div>
+      ) : (
+        CATEGORIES.map((c) => {
+          const groupPlaces = categorized[c.key] || []
+          if (groupPlaces.length === 0) return null
+          const meta = sectionTitles[c.key] || { title: c.label, sub: '' }
+
+          return (
+            <section key={c.key} className="curation-section">
+              <div className="section-head-row">
+                <div className="head-text-group">
+                  <h3>{meta.title}</h3>
+                  <p className="section-sub">{meta.sub}</p>
+                </div>
+                <button
+                  type="button"
+                  className="section-more-btn"
+                  onClick={() => onSwitchToMap && onSwitchToMap(c.key)}
+                >
+                  지도에서 전체보기 ➔
+                </button>
               </div>
-              <button
-                type="button"
-                className="section-more-btn"
-                onClick={() => onSwitchToMap && onSwitchToMap(c.key)}
-              >
-                지도에서 전체보기 ➔
-              </button>
-            </div>
 
-            <div className="curation-grid">
-              {groupPlaces.map((p) => (
-                <CurationCard
-                  key={p.id}
-                  place={p}
-                  onSelectPlace={onSelectPlace}
-                  onOpenDetail={onOpenDetail}
-                />
-              ))}
-            </div>
-          </section>
-        )
-      })}
+              <div className="curation-grid">
+                {groupPlaces.map((p) => (
+                  <CurationCard
+                    key={p.id}
+                    place={p}
+                    onSelectPlace={onSelectPlace}
+                    onOpenDetail={onOpenDetail}
+                  />
+                ))}
+              </div>
+            </section>
+          )
+        })
+      )}
     </div>
   )
 }
