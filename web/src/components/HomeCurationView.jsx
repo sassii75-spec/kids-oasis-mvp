@@ -106,28 +106,11 @@ export default function HomeCurationView({
 
   return (
     <div className="home-curation-view">
-      {searchQuery && (
-        <div className="home-search-results-banner">
-          <div className="banner-info">
-            <span className="search-tag">검색어: <strong>"{searchQuery}"</strong></span>
-            <span className="results-count">총 <strong>{places.length}</strong>곳의 장소를 찾았습니다.</span>
-          </div>
-          <div className="banner-actions">
-            <button type="button" className="btn-view-map-all" onClick={() => onSwitchToMap && onSwitchToMap()}>
-              🗺️ 지도에서 전체보기 ➔
-            </button>
-            <button type="button" className="btn-clear-search-banner" onClick={onResetSearch}>
-              ✕ 검색 초기화
-            </button>
-          </div>
-        </div>
-      )}
-
       {!hasAnyPlaces ? (
         <div className="curation-empty-state">
           <div className="empty-icon-badge">🔍</div>
           <h3>'{searchQuery || '선택한 조건'}'에 대한 검색 결과가 없습니다</h3>
-          <p>입력하신 검색어나 선택하신 필터 조건에 부합하는 장소를 찾지 못했어요.<br />다른 검색어를 입력하시거나 검색어를 초기화해 보세요.</p>
+          <p>입력하신 검색어나 선택하신 필터 조건에 부합하는 장소를 찾지 못했어요.<br />다른 검색어를 입력하시거나 아래 버튼을 눌러 초기화해 보세요.</p>
           {onResetSearch && (
             <button type="button" className="btn-reset-search" onClick={onResetSearch}>
               🔄 검색어 및 필터 초기화

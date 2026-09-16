@@ -440,36 +440,43 @@ body {
   box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
-/* Home Curation Search Results Banner & Empty State */
-.home-search-results-banner {
+/* Global Search Notice Banners & Map Empty Overlay */
+.search-banner-container {
+  max-width: 1600px;
+  margin: 12px auto 0;
+  padding: 0 28px;
+  width: 100%;
+}
+.search-empty-notice-banner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  background: linear-gradient(135deg, #ECFDF5 0%, #F0FDF4 100%);
-  border: 1.5px solid #A7F3D0;
-  padding: 14px 20px;
+  background: #FEF2F2;
+  border: 1.5px solid #FECACA;
+  padding: 14px 22px;
   border-radius: 16px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.08);
+  animation: fadeIn 0.25s ease-out;
 }
-.home-search-results-banner .banner-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 14.5px;
-  color: #065F46;
-}
-.home-search-results-banner .search-tag strong {
-  color: #047857;
-}
-.home-search-results-banner .banner-actions {
+.search-empty-notice-banner .notice-left {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.btn-view-map-all {
-  background: #10B981;
+.search-empty-notice-banner .notice-icon {
+  font-size: 20px;
+}
+.search-empty-notice-banner .notice-text {
+  font-size: 15px;
+  color: #991B1B;
+}
+.search-empty-notice-banner .notice-text strong {
+  font-weight: 800;
+  color: #7F1D1D;
+}
+.btn-reset-search-notice {
+  background: #EF4444;
   color: #FFFFFF;
   border: none;
   padding: 8px 16px;
@@ -477,26 +484,117 @@ body {
   font-weight: 700;
   font-size: 13.5px;
   cursor: pointer;
+  white-space: nowrap;
   transition: all 0.2s ease;
+  font-family: var(--font-body);
 }
-.btn-view-map-all:hover {
+.btn-reset-search-notice:hover {
+  background: #DC2626;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.search-active-notice-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: linear-gradient(135deg, #ECFDF5 0%, #F0FDF4 100%);
+  border: 1.5px solid #A7F3D0;
+  padding: 12px 22px;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.08);
+  animation: fadeIn 0.25s ease-out;
+}
+.search-active-notice-banner .notice-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14.5px;
+  color: #065F46;
+}
+.search-active-notice-banner .notice-tag strong {
+  color: #047857;
+  font-weight: 800;
+}
+.search-active-notice-banner .notice-count strong {
+  color: #059669;
+  font-weight: 800;
+}
+.search-active-notice-banner .notice-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn-switch-map-notice {
+  background: #10B981;
+  color: #FFFFFF;
+  border: none;
+  padding: 7px 15px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  font-family: var(--font-body);
+}
+.btn-switch-map-notice:hover {
   background: #059669;
   transform: translateY(-1px);
 }
-.btn-clear-search-banner {
+.btn-clear-search-notice {
   background: #FFFFFF;
   color: #475569;
   border: 1px solid #CBD5E1;
-  padding: 8px 14px;
+  padding: 7px 14px;
   border-radius: 10px;
   font-weight: 600;
   font-size: 13px;
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
+  font-family: var(--font-body);
 }
-.btn-clear-search-banner:hover {
+.btn-clear-search-notice:hover {
   background: #F8FAFC;
   color: #0F172A;
+}
+
+/* Map Empty Overlay */
+.map-empty-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  pointer-events: none;
+}
+.map-empty-card {
+  pointer-events: auto;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 2px dashed #CBD5E1;
+  padding: 24px 36px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+}
+.map-empty-card .empty-icon {
+  font-size: 36px;
+  display: block;
+  margin-bottom: 8px;
+}
+.map-empty-card h4 {
+  font-size: 17px;
+  font-weight: 800;
+  color: #1E293B;
+  margin: 0 0 6px;
+}
+.map-empty-card p {
+  font-size: 13.5px;
+  color: #64748B;
+  margin: 0;
+  line-height: 1.5;
 }
 
 .curation-empty-state {

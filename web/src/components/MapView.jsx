@@ -281,6 +281,16 @@ export default function MapView({
           <code>{kakaoError}</code>
         </div>
       )}
+      {places.length === 0 && (
+        <div className="map-empty-overlay">
+          <div className="map-empty-card">
+            <span className="empty-icon">📍🔍</span>
+            <h4>검색 조건에 맞는 장소가 없어요</h4>
+            <p>지도에 표시할 수 있는 장소를 찾지 못했습니다.<br />검색어를 바꾸거나 필터를 초기화해 보세요.</p>
+          </div>
+        </div>
+      )}
+
       {kakao && noAddressCount > 0 && (
         <div
           style={{

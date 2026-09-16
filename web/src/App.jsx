@@ -301,6 +301,42 @@ export default function App() {
         />
       )}
 
+      {/* Global Search Results / No Results Banner */}
+      {viewMode !== 'community' && searchQuery.trim() !== '' && (
+        <div className="search-banner-container">
+          {filteredPlaces.length === 0 ? (
+            <div className="search-empty-notice-banner">
+              <div className="notice-left">
+                <span className="notice-icon">🔍</span>
+                <span className="notice-text">
+                  <strong>"{searchQuery}"</strong>에 대한 검색 결과가 없습니다. (0건)
+                </span>
+              </div>
+              <button type="button" className="btn-reset-search-notice" onClick={handleResetSearch}>
+                🔄 검색어 초기화
+              </button>
+            </div>
+          ) : (
+            <div className="search-active-notice-banner">
+              <div className="notice-left">
+                <span className="notice-tag">검색어: <strong>"{searchQuery}"</strong></span>
+                <span className="notice-count">총 <strong>{filteredPlaces.length}</strong>곳의 장소를 찾았습니다.</span>
+              </div>
+              <div className="notice-right">
+                {viewMode === 'home' && (
+                  <button type="button" className="btn-switch-map-notice" onClick={() => handleSwitchToCategoryMap()}>
+                    🗺️ 지도에서 결과 전체보기 ➔
+                  </button>
+                )}
+                <button type="button" className="btn-clear-search-notice" onClick={handleResetSearch}>
+                  ✕ 검색 초기화
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       {viewMode === 'home' ? (
         <HomeCurationView
           places={filteredPlaces}
